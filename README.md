@@ -1,4 +1,4 @@
-# wp-bridge-apache
+# chatgpt-wp-bridge
 
 A small FastAPI bridge that lets a Custom GPT publish HTML pages or formatted chat transcripts to WordPress through the WordPress REST API.
 
@@ -15,7 +15,7 @@ A small FastAPI bridge that lets a Custom GPT publish HTML pages or formatted ch
 ## Repo structure
 
 ```text
-wp-bridge-apache/
+chatgpt-wp-bridge/
 ├── main.py
 ├── requirements.txt
 ├── .env.example
