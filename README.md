@@ -26,8 +26,8 @@ chatgpt-wp-bridge/
 ├── LICENSE
 ├── SECURITY.md
 └── deploy/
-    ├── wp-bridge.service
-    └── apache-wp-bridge.conf
+    ├── chatgpt-wp-bridge.service
+    └── apache-chatgpt-wp-bridge.conf
 ```
 
 ## Quick start
@@ -98,7 +98,7 @@ curl -X POST http://127.0.0.1:8000/publish_transcript \
 Suggested layout:
 
 ```text
-/opt/wp-bridge/
+/opt/chatgpt-wp-bridge/
 ├── main.py
 ├── requirements.txt
 ├── .env
@@ -108,30 +108,30 @@ Suggested layout:
 Install dependencies:
 
 ```bash
-python3 -m venv /opt/wp-bridge/venv
-/opt/wp-bridge/venv/bin/pip install -r /opt/wp-bridge/requirements.txt
+python3 -m venv /opt/chatgpt-wp-bridge/venv
+/opt/chatgpt-wp-bridge/venv/bin/pip install -r /opt/chatgpt-wp-bridge/requirements.txt
 ```
 
 Create a service account if desired:
 
 ```bash
-sudo useradd --system --home /opt/wp-bridge --shell /usr/sbin/nologin wpbridge
-sudo chown -R wpbridge:wpbridge /opt/wp-bridge
+sudo useradd --system --home /opt/chatgpt-wp-bridge --shell /usr/sbin/nologin chatgptwpbridge
+sudo chown -R chatgptwpbridge:chatgptwpbridge /opt/chatgpt-wp-bridge
 ```
 
-Copy `deploy/wp-bridge.service` to:
+Copy `deploy/chatgpt-wp-bridge.service` to:
 
 ```text
-/etc/systemd/system/wp-bridge.service
+/etc/systemd/system/chatgpt-wp-bridge.service
 ```
 
 Then:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable wp-bridge
-sudo systemctl start wp-bridge
-sudo systemctl status wp-bridge
+sudo systemctl enable chatgpt-wp-bridge
+sudo systemctl start chatgpt-wp-bridge
+sudo systemctl status chatgpt-wp-bridge
 ```
 
 Enable the needed Apache modules:
@@ -143,11 +143,11 @@ sudo a2enmod headers
 sudo a2enmod ssl
 ```
 
-Copy `deploy/apache-wp-bridge.conf` to your Apache sites config, enable it, and reload Apache:
+Copy `deploy/apache-chatgpt-wp-bridge.conf` to your Apache sites config, enable it, and reload Apache:
 
 ```bash
-sudo cp deploy/apache-wp-bridge.conf /etc/apache2/sites-available/wp-bridge.conf
-sudo a2ensite wp-bridge
+sudo cp deploy/apache-chatgpt-wp-bridge.conf /etc/apache2/sites-available/chatgpt-wp-bridge.conf
+sudo a2ensite chatgpt-wp-bridge
 sudo systemctl reload apache2
 ```
 
