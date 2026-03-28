@@ -77,3 +77,10 @@ paths:
       responses:
         "200":
           description: Publish transcript result
+
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
