@@ -1,18 +1,18 @@
 [Unit]
-Description=WordPress Publishing Bridge
+Description=ChatGPT WordPress Publishing Bridge
 After=network.target
 
 [Service]
 Type=simple
-User=wpbridge
-Group=wpbridge
-WorkingDirectory=/opt/wp-bridge
-EnvironmentFile=/opt/wp-bridge/.env
-ExecStart=/opt/wp-bridge/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --proxy-headers --forwarded-allow-ips=*
+User=chatgptwpbridge
+Group=chatgptwpbridge
+WorkingDirectory=/opt/chatgpt-wp-bridge
+EnvironmentFile=/opt/chatgpt-wp-bridge/.env
+ExecStart=/opt/chatgpt-wp-bridge/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --proxy-headers --forwarded-allow-ips=*
 Restart=always
 RestartSec=5
-StandardOutput=append:/var/log/wp-bridge.log
-StandardError=append:/var/log/wp-bridge.log
+StandardOutput=append:/var/log/chatgpt-wp-bridge.log
+StandardError=append:/var/log/chatgpt-wp-bridge.log
 
 [Install]
 WantedBy=multi-user.target
