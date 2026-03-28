@@ -56,10 +56,10 @@ To publish content from another chat:
 3. Paste the content
 4. Use a command such as:
 
-Publish this as a draft.
+    Publish this as a draft.
 
-or
+    or
 
-Publish this conversation as a draft.
+    Publish this conversation as a draft.
 
 Alternatively, you can bypass the GPT entirely and send structured data directly to the `/publish` or `/publish_transcript` API endpoints.
