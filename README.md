@@ -256,3 +256,5 @@ See [PRIVACY.md](./PRIVACY.md) for details on how data is handled.
 - Content is published as raw HTML
 - Ensure only trusted sources can access the bridge
 - Use HTTPS in production
+- Publishing must be performed from within the custom GPT interface
+- ChatGPT share links cannot be used directly for publishing
