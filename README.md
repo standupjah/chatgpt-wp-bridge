@@ -191,6 +191,29 @@ Authentication is done via WordPress Application Passwords.
 
 ---
 
+## Create Service User
+
+The systemd service runs the bridge under a dedicated system user for security.
+
+Create the user:
+
+```bash
+sudo useradd --system --home /opt/chatgpt-wp-bridge --shell /usr/sbin/nologin chatgptwpbridge
+```
+
+Set ownership of the bridge directory:
+
+```bash
+sudo chown -R chatgptwpbridge:chatgptwpbridge /opt/chatgpt-wp-bridge
+```
+
+Ensure the .env file and virtual environment are readable by this user:
+
+```bash
+sudo chmod 750 /opt/chatgpt-wp-bridge
+sudo chmod 640 /opt/chatgpt-wp-bridge/.env
+```
+
 ## Deployment
 
 ### Systemd
