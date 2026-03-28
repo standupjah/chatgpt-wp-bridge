@@ -1,3 +1,6 @@
+**Version:** 1.0.0  
+**Status:** Production-ready
+
 # chatgpt-wp-bridge
 
 A lightweight bridge that allows ChatGPT (Custom GPT or API) to publish HTML content directly to a WordPress site via the REST API.
@@ -12,6 +15,18 @@ A lightweight bridge that allows ChatGPT (Custom GPT or API) to publish HTML con
 - Designed for use with Custom GPT actions
 - Supports Apache reverse proxy + systemd deployment
 
+---
+
+## Architecture
+
+ChatGPT (Custom GPT)
+        ↓
+   HTTPS Request
+        ↓
+chatgpt-wp-bridge (FastAPI)
+        ↓
+ WordPress REST API
+ 
 ---
 
 ## Repository Structure
@@ -42,6 +57,36 @@ Before using this bridge, ensure you have:
 - A WordPress **Application Password** (required)
 - Python 3.9+
 - A server (for production)
+
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/yourname/chatgpt-wp-bridge
+cd chatgpt-wp-bridge
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+cp .env.example .env
+# edit .env
+
+uvicorn main:app --port 8000
+
+# test
+curl http://localhost:8000/health
+
+# publish a test draft
+curl -X POST http://localhost:8000/publish \
+  -H "Content-Type: application/json" \
+  -H "X-Bridge-Secret: your-secret" \
+  -d '{
+    "title": "Test Post",
+    "content": "<p>Hello world</p>",
+    "status": "draft"
+  }'
 
 ---
 
