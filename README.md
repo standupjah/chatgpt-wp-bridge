@@ -87,6 +87,7 @@ curl -X POST http://localhost:8000/publish \
     "content": "<p>Hello world</p>",
     "status": "draft"
   }'
+```
 
 ---
 
