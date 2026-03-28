@@ -136,7 +136,7 @@ Returns status of the bridge.
 
 ## Example Requests
 
-### Publish a Page/Post (Change your-secret)
+### Publish a Page/Post 
 
 ```
 curl -X POST http://localhost:8000/publish \
@@ -149,7 +149,7 @@ curl -X POST http://localhost:8000/publish \
   }'
 ```
 
-### Publish a Transcript (Change your-secret)
+### Publish a Transcript
 
 ```
 curl -X POST http://localhost:8000/publish_transcript \                                                          -H "Content-Type: application/json" \
