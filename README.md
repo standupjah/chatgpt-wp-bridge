@@ -77,9 +77,6 @@ cp .env.example .env
 
 uvicorn main:app --port 8000
 
-# test
-curl http://localhost:8000/health
-
 ```
 
 ---
