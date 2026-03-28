@@ -65,7 +65,7 @@ Before using this bridge, ensure you have:
 ## Quick Start
 
 ```bash
-git clone https://github.com/yourname/chatgpt-wp-bridge
+git clone https://github.com/standupjah/chatgpt-wp-bridge
 cd chatgpt-wp-bridge
 
 python3 -m venv venv
@@ -79,30 +79,6 @@ uvicorn main:app --port 8000
 
 # test
 curl http://localhost:8000/health
-
-# publish a test draft (change your-secret)
-curl -X POST http://localhost:8000/publish \
-  -H "Content-Type: application/json" \
-  -H "X-Bridge-Secret: your-secret" \
-  -d '{
-    "title": "Test Post",
-    "content": "<p>Hello world</p>",
-    "status": "draft"
-  }'
-
-# publish a test draft of the transcript (change your-secret)
-curl -X POST http://localhost:8000/publish_transcript \                                                          -H "Content-Type: application/json" \
-  -H "X-Bridge-Secret: your-secret" \
-  -d '{                                                               
-    "title":"Transcript Test",
-    "status":"draft",
-    "content_type":"page",
-    "intro":"A formatted transcript test.",
-    "messages":[
-      {"role":"user","content":"Hello ChatGPT"},
-      {"role":"assistant","content":"Hello!"}
-    ]
-  }'
 
 ```
 
