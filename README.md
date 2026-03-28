@@ -134,6 +134,40 @@ Returns status of the bridge.
 
 ---
 
+## Example Requests
+
+### Publish a Page/Post (Change your-secret)
+
+```
+curl -X POST http://localhost:8000/publish \
+  -H "Content-Type: application/json" \
+  -H "X-Bridge-Secret: your-secret" \
+  -d '{
+    "title": "Test Post",
+    "content": "<p>Hello world</p>",
+    "status": "draft"
+  }'
+```
+
+### Publish a Transcript (Change your-secret)
+
+```
+curl -X POST http://localhost:8000/publish_transcript \                                                          -H "Content-Type: application/json" \
+  -H "X-Bridge-Secret: your-secret" \
+  -d '{                                                               
+    "title":"Transcript Test",
+    "status":"draft",
+    "content_type":"page",
+    "intro":"A formatted transcript test.",
+    "messages":[
+      {"role":"user","content":"Hello ChatGPT"},
+      {"role":"assistant","content":"Hello!"}
+    ]
+  }'
+```
+
+---
+
 ## WordPress Integration
 
 The bridge publishes to:
