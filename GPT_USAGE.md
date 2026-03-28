@@ -34,3 +34,32 @@ Once your GPT Action is connected to chatgpt-wp-bridge, you can use prompts like
 - Uses `/publish` for normal HTML/page/post content
 - Uses `/publish_transcript` for chats and transcripts
 - Returns the resulting WordPress URL after success
+
+## Limitations
+
+### GPT share links are not supported for publishing
+
+You cannot publish content by providing a ChatGPT share link.
+
+Custom GPT Actions only run when you are actively using the GPT in a chat session. This means:
+
+- You must open the custom GPT and interact with it directly
+- You cannot trigger publishing from an external link or URL
+- You cannot paste a shared chat link and have it automatically publish
+
+### Workaround
+
+To publish content from another chat:
+
+1. Copy the content or transcript
+2. Open your custom GPT
+3. Paste the content
+4. Use a command such as:
+
+Publish this as a draft.
+
+or
+
+Publish this conversation as a draft.
+
+Alternatively, you can bypass the GPT entirely and send structured data directly to the `/publish` or `/publish_transcript` API endpoints.
