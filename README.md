@@ -65,6 +65,7 @@ Before using this bridge, ensure you have:
 ## Quick Start
 
 ```bash
+cd /opt
 git clone https://github.com/standupjah/chatgpt-wp-bridge
 cd chatgpt-wp-bridge
 
@@ -97,6 +98,7 @@ BRIDGE_SECRET=your-secret-key
 ## Installation
 
 ```
+cd /opt/chatgpt-wp-bridge
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -144,7 +146,7 @@ curl -X POST http://localhost:8000/publish \
   -H "X-Bridge-Secret: your-secret" \
   -d '{
     "title": "Test Post",
-    "content": "<p>Hello world</p>",
+    "html": "<p>Hello world</p>",
     "status": "draft"
   }'
 ```
@@ -152,16 +154,17 @@ curl -X POST http://localhost:8000/publish \
 ### Publish a Transcript
 
 ```
-curl -X POST http://localhost:8000/publish_transcript \                                                          -H "Content-Type: application/json" \
+curl -X POST http://localhost:8000/publish_transcript \
+  -H "Content-Type: application/json" \
   -H "X-Bridge-Secret: your-secret" \
-  -d '{                                                               
-    "title":"Transcript Test",
-    "status":"draft",
-    "content_type":"page",
-    "intro":"A formatted transcript test.",
-    "messages":[
-      {"role":"user","content":"Hello ChatGPT"},
-      {"role":"assistant","content":"Hello!"}
+  -d '{
+    "title": "Test Transcript",
+    "status": "draft",
+    "content_type": "page",
+    "intro": "Test transcript publish.",
+    "messages": [
+      {"role": "user", "content": "Hello"},
+      {"role": "assistant", "content": "Hi there"}
     ]
   }'
 ```
