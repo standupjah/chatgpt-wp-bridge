@@ -1,162 +1,150 @@
 # chatgpt-wp-bridge
 
-A small FastAPI bridge that lets a Custom GPT publish HTML pages or formatted chat transcripts to WordPress through the WordPress REST API.
+A lightweight bridge that allows ChatGPT (Custom GPT or API) to publish HTML content directly to a WordPress site via the REST API.
+
+---
 
 ## Features
 
-- Publish raw HTML to WordPress with `/publish`
-- Publish formatted chat transcripts with `/publish_transcript`
-- `.env` loading with `python-dotenv`
-- Auth-protected with `X-Bridge-Secret`
-- Logging compatible with Fail2ban
-- Deployment examples for systemd and Apache
-- MIT licensed
+- Publish HTML pages and posts to WordPress
+- Publish full chat transcripts
+- Secure endpoint using a shared secret
+- Designed for use with Custom GPT actions
+- Supports Apache reverse proxy + systemd deployment
 
-## Repo structure
+---
 
-```text
+## Repository Structure
+
+```
 chatgpt-wp-bridge/
 ├── main.py
+├── openapi.yaml
 ├── requirements.txt
 ├── .env.example
-├── .gitignore
-├── openapi.yaml
-├── custom_gpt_instructions.txt
-├── fail2ban_setup.md
-├── LICENSE
+├── README.md
 ├── SECURITY.md
-└── deploy/
-    ├── chatgpt-wp-bridge.service
-    └── apache-chatgpt-wp-bridge.conf
+├── fail2ban_setup.md
+├── custom_gpt_instructions.txt
+├── deploy/
+│   ├── apache-chatgpt-wp-bridge.conf
+│   └── chatgpt-wp-bridge.service
 ```
 
-## Quick start
+---
 
-```bash
+## Prerequisites
+
+Before using this bridge, ensure you have:
+
+- A WordPress site with REST API enabled
+- A WordPress user account
+- A WordPress **Application Password** (required)
+- Python 3.9+
+- A server (for production)
+
+---
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+```
+WP_BASE_URL=https://your-site.com
+WP_USERNAME=your-username
+WP_APP_PASSWORD=your-application-password
+BRIDGE_SECRET=your-secret-key
+```
+
+---
+
+## Installation
+
+```
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
 ```
 
-Edit `.env`, then run:
+---
 
-```bash
-uvicorn main:app --host 127.0.0.1 --port 8000
+## Running Locally
+
+```
+uvicorn main:app --reload --port 8000
 ```
 
 Health check:
 
-```bash
-curl http://127.0.0.1:8000/health
+```
+curl http://localhost:8000/health
 ```
 
-Test publish endpoint:
+---
 
-```bash
-curl -X POST http://127.0.0.1:8000/publish \
-  -H "Content-Type: application/json" \
-  -H "X-Bridge-Secret: your-secret-here" \
-  -d '{
-    "title": "Test Page",
-    "html": "<h1>Hello from bridge</h1>",
-    "status": "draft",
-    "content_type": "page"
-  }'
+## API Endpoints
+
+### POST /publish
+
+Publish HTML content to WordPress.
+
+### POST /publish_transcript
+
+Publish a formatted chat transcript.
+
+### GET /health
+
+Returns status of the bridge.
+
+---
+
+## WordPress Integration
+
+The bridge publishes to:
+
+- `/wp-json/wp/v2/posts`
+- `/wp-json/wp/v2/pages`
+
+Authentication is done via WordPress Application Passwords.
+
+---
+
+## Custom GPT Setup
+
+1. Import `openapi.yaml`
+2. Set server URL to your bridge endpoint
+3. Add header:
+   - `X-Bridge-Secret: your-secret`
+
+---
+
+## Deployment
+
+### Systemd
+
+Copy service file:
+
 ```
-
-Test transcript endpoint:
-
-```bash
-curl -X POST http://127.0.0.1:8000/publish_transcript \
-  -H "Content-Type: application/json" \
-  -H "X-Bridge-Secret: your-secret-here" \
-  -d '{
-    "title": "Transcript Test",
-    "status": "draft",
-    "content_type": "page",
-    "intro": "A formatted transcript test.",
-    "messages": [
-      {"role": "user", "content": "What is imagination?"},
-      {"role": "assistant", "content": "Imagination can be approached as a meaning-forming faculty."}
-    ]
-  }'
-```
-
-## Custom GPT setup
-
-1. Replace the server URL in `openapi.yaml` with your public HTTPS bridge URL.
-2. Create a Custom GPT.
-3. Import `openapi.yaml` into the action setup.
-4. In action authentication, choose API key auth with a custom header.
-5. Set header name to `X-Bridge-Secret`.
-6. Set the value to your `BRIDGE_SECRET`.
-7. Paste in `custom_gpt_instructions.txt`.
-
-## VPS deployment with Apache
-
-Suggested layout:
-
-```text
-/opt/chatgpt-wp-bridge/
-├── main.py
-├── requirements.txt
-├── .env
-└── venv/
-```
-
-Install dependencies:
-
-```bash
-python3 -m venv /opt/chatgpt-wp-bridge/venv
-/opt/chatgpt-wp-bridge/venv/bin/pip install -r /opt/chatgpt-wp-bridge/requirements.txt
-```
-
-Create a service account if desired:
-
-```bash
-sudo useradd --system --home /opt/chatgpt-wp-bridge --shell /usr/sbin/nologin chatgptwpbridge
-sudo chown -R chatgptwpbridge:chatgptwpbridge /opt/chatgpt-wp-bridge
-```
-
-Copy `deploy/chatgpt-wp-bridge.service` to:
-
-```text
-/etc/systemd/system/chatgpt-wp-bridge.service
-```
-
-Then:
-
-```bash
-sudo systemctl daemon-reload
+sudo cp deploy/chatgpt-wp-bridge.service /etc/systemd/system/
+sudo systemctl daemon-reexec
 sudo systemctl enable chatgpt-wp-bridge
 sudo systemctl start chatgpt-wp-bridge
-sudo systemctl status chatgpt-wp-bridge
 ```
 
-Enable the needed Apache modules:
+### Apache Reverse Proxy
 
-```bash
-sudo a2enmod proxy
-sudo a2enmod proxy_http
-sudo a2enmod headers
-sudo a2enmod ssl
+Enable required modules:
+
+```
+a2enmod proxy proxy_http headers
 ```
 
-Copy `deploy/apache-chatgpt-wp-bridge.conf` to your Apache sites config, enable it, and reload Apache:
+Use provided config in `deploy/apache-chatgpt-wp-bridge.conf`.
 
-```bash
-sudo cp deploy/apache-chatgpt-wp-bridge.conf /etc/apache2/sites-available/chatgpt-wp-bridge.conf
-sudo a2ensite chatgpt-wp-bridge
-sudo systemctl reload apache2
-```
+---
 
-Then add TLS with your normal Apache or Let's Encrypt workflow.
+## Notes
 
-## GitHub checklist
-
-- commit the repo files
-- do **not** commit `.env`
-- add the MIT `LICENSE`
-- add a short repo description
-- set the repo visibility you want
+- Content is published as raw HTML
+- Ensure only trusted sources can access the bridge
+- Use HTTPS in production
