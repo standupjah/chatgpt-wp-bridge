@@ -14,7 +14,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("wp_bridge")
 
-app = FastAPI(title="WordPress Publishing Bridge")
+app = FastAPI(title="ChatGPT WordPress Publishing Bridge")
 
 WP_BASE_URL = os.getenv("WP_BASE_URL", "").rstrip("/")
 WP_USERNAME = os.getenv("WP_USERNAME", "")
