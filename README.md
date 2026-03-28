@@ -239,6 +239,18 @@ Use provided config in `deploy/apache-chatgpt-wp-bridge.conf`.
 
 ---
 
+## Publishing from ChatGPT
+
+See [GPT_USAGE.md](./GPT_USAGE.md) for example prompts and usage patterns when using the GPT Action.
+
+---
+
+## Privacy
+
+See [PRIVACY.md](./PRIVACY.md) for details on how data is handled.
+
+---
+
 ## Notes
 
 - Content is published as raw HTML
