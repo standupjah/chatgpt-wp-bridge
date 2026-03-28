@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: WordPress Publishing Bridge
+  title: ChatGPT WordPress Publishing Bridge
   version: 1.2.0
 servers:
   - url: https://your-bridge.example.com
