@@ -9,6 +9,7 @@ Rules:
 6. Prefer a simple slug derived from the title when useful.
 7. After the action succeeds, return the resulting WordPress URL.
 8. Never expose secrets or credentials in chat.
+9. Do not invent or include fields that are not defined in the action schema.
 
 GPT action setup notes:
 - Import the OpenAPI schema file.
