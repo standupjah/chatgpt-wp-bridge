@@ -19,6 +19,7 @@ A lightweight bridge that allows ChatGPT (Custom GPT or API) to publish HTML con
 
 ## Architecture
 
+```
 ChatGPT (Custom GPT)
         ↓
    HTTPS Request
@@ -26,6 +27,7 @@ ChatGPT (Custom GPT)
 chatgpt-wp-bridge (FastAPI)
         ↓
  WordPress REST API
+```
  
 ---
 
