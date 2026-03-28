@@ -3,7 +3,7 @@
 This bridge logs failed auth attempts in this format:
 
 ```text
-WP_BRIDGE_AUTH_FAIL from 203.0.113.10
+CHATGPT_WP_BRIDGE_AUTH_FAIL from 203.0.113.10
 ```
 
 ## 1. Make sure the bridge logs are written to a file
@@ -11,18 +11,18 @@ WP_BRIDGE_AUTH_FAIL from 203.0.113.10
 This repo's systemd service is already configured to write to:
 
 ```text
-/var/log/wp-bridge.log
+/var/log/chatgpt-wp-bridge.log
 ```
 
 ## 2. Create the filter
 
 Create:
 
-`/etc/fail2ban/filter.d/wp-bridge.conf`
+`/etc/fail2ban/filter.d/chatgpt-wp-bridge.conf`
 
 ```ini
 [Definition]
-failregex = WP_BRIDGE_AUTH_FAIL from <HOST>
+failregex = CHATGPT_WP_BRIDGE_AUTH_FAIL from <HOST>
 ignoreregex =
 ```
 
@@ -33,11 +33,11 @@ Add to:
 `/etc/fail2ban/jail.local`
 
 ```ini
-[wp-bridge]
+[chatgpt-wp-bridge]
 enabled = true
 port = 8000
-filter = wp-bridge
-logpath = /var/log/wp-bridge.log
+filter = chatgpt-wp-bridge
+logpath = /var/log/chatgpt-wp-bridge.log
 maxretry = 5
 findtime = 600
 bantime = 3600
@@ -49,13 +49,13 @@ backend = auto
 ```bash
 sudo systemctl restart fail2ban
 sudo fail2ban-client status
-sudo fail2ban-client status wp-bridge
+sudo fail2ban-client status chatgpt-wp-bridge
 ```
 
 ## 5. Test the regex
 
 ```bash
-sudo fail2ban-regex /var/log/wp-bridge.log /etc/fail2ban/filter.d/wp-bridge.conf
+sudo fail2ban-regex /var/log/chatgpt-wp-bridge.log /etc/fail2ban/filter.d/chatgpt-wp-bridge.conf
 ```
 
 ## 6. Trigger failures
@@ -72,11 +72,11 @@ done
 ## 7. Check jail status
 
 ```bash
-sudo fail2ban-client status wp-bridge
+sudo fail2ban-client status chatgpt-wp-bridge
 ```
 
 ## 8. Unban an IP if needed
 
 ```bash
-sudo fail2ban-client set wp-bridge unbanip 127.0.0.1
+sudo fail2ban-client set chatgpt-wp-bridge unbanip 127.0.0.1
 ```
