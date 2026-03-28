@@ -77,10 +77,18 @@ paths:
       responses:
         "200":
           description: Publish transcript result
-
   /health:
     get:
       summary: Health check
       responses:
         '200':
           description: OK
+components:
+  securitySchemes:
+    BridgeSecret:
+      type: apiKey
+      in: header
+      name: X-Bridge-Secret
+
+security:
+  - BridgeSecret: []
