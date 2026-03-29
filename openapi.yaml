@@ -1,33 +1,44 @@
 openapi: 3.1.0
 info:
   title: ChatGPT WordPress Publishing Bridge
-  version: 1.2.0
+  version: 1.2.1
 servers:
   - url: https://your-bridge.example.com
+
 paths:
   /publish:
     post:
       operationId: publishPage
       summary: Publish HTML content to WordPress
+      x-openai-isConsequential: true
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [title, html]
+              required:
+                - title
+                - html
               properties:
                 title:
                   type: string
+                  description: Title of the WordPress post or page.
                 html:
                   type: string
+                  description: HTML content to publish.
                 status:
                   type: string
-                  enum: [draft, publish, private]
+                  enum:
+                    - draft
+                    - publish
+                    - private
                   default: draft
                 content_type:
                   type: string
-                  enum: [page, post]
+                  enum:
+                    - page
+                    - post
                   default: page
                 slug:
                   type: string
@@ -41,23 +52,32 @@ paths:
     post:
       operationId: publishTranscript
       summary: Publish a conversation transcript to WordPress
+      x-openai-isConsequential: true
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [title, messages]
+              required:
+                - title
+                - messages
               properties:
                 title:
                   type: string
+                  description: Title of the transcript post or page.
                 status:
                   type: string
-                  enum: [draft, publish, private]
+                  enum:
+                    - draft
+                    - publish
+                    - private
                   default: draft
                 content_type:
                   type: string
-                  enum: [page, post]
+                  enum:
+                    - page
+                    - post
                   default: page
                 slug:
                   type: string
@@ -67,28 +87,26 @@ paths:
                   type: array
                   items:
                     type: object
-                    required: [role, content]
+                    required:
+                      - role
+                      - content
                     properties:
                       role:
                         type: string
-                        enum: [user, assistant]
+                        enum:
+                          - user
+                          - assistant
                       content:
                         type: string
       responses:
         "200":
           description: Publish transcript result
+
   /health:
     get:
+      operationId: healthCheck
       summary: Health check
+      x-openai-isConsequential: false
       responses:
-        '200':
+        "200":
           description: OK
-components:
-  securitySchemes:
-    BridgeSecret:
-      type: apiKey
-      in: header
-      name: X-Bridge-Secret
-
-security:
-  - BridgeSecret: []
