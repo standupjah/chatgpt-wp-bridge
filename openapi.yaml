@@ -11,6 +11,8 @@ paths:
       operationId: publishPage
       summary: Publish HTML content to WordPress
       x-openai-isConsequential: true
+      security:
+        - BridgeSecret: []
       requestBody:
         required: true
         content:
@@ -53,6 +55,8 @@ paths:
       operationId: publishTranscript
       summary: Publish a conversation transcript to WordPress
       x-openai-isConsequential: true
+      security:
+        - BridgeSecret: []
       requestBody:
         required: true
         content:
@@ -107,6 +111,14 @@ paths:
       operationId: healthCheck
       summary: Health check
       x-openai-isConsequential: false
+      security: []
       responses:
         "200":
           description: OK
+
+components:
+  securitySchemes:
+    BridgeSecret:
+      type: apiKey
+      in: header
+      name: X-Bridge-Secret
