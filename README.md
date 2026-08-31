@@ -1,4 +1,4 @@
-**Version:** 1.0.0  
+**Version:** 1.0.1<br>
 **Status:** Production-ready
 
 # chatgpt-wp-bridge
@@ -186,8 +186,23 @@ Authentication is done via WordPress Application Passwords.
 
 1. Import `openapi.yaml`
 2. Set server URL to your bridge endpoint
-3. Add header:
-   - `X-Bridge-Secret: your-secret`
+3. In the Action authentication settings, select API key authentication
+4. Choose a custom header named `X-Bridge-Secret`
+5. Set its value to the same secret used for `BRIDGE_SECRET` in `.env`
+
+### OpenAPI Schema Compatibility
+
+The bridge uses OpenAPI 3.1.0. The current action schema revision is 1.2.1.
+
+- `/publish` requires `title` and `html`
+- `/publish_transcript` requires `title` and `messages`
+- Each transcript message requires `role` and `content`
+- `status` defaults to `draft`
+- `content_type` defaults to `page`
+
+Both publishing operations require the `X-Bridge-Secret` header and are marked
+as consequential, so ChatGPT requests confirmation before running them. The
+`/health` endpoint is public and non-consequential.
 
 ---
 
